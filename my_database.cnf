@@ -1,0 +1,5 @@
+[client]
+database = myblog
+user = root
+password = 21517qq@FJY
+default-character-set = utf8

@@ -1,0 +1,16 @@
+from django.contrib import admin
+from .models import *
+# Register your models here.
+
+class BlogCategrayAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ['title', 'content', 'pub_time', 'category', 'author']
+
+class BlogCommentAdmin(admin.ModelAdmin):
+    list_display = ['content', 'pub_time', 'blog', 'author']
+
+admin.site.register(BlogCategory, BlogCategrayAdmin)
+admin.site.register(Blog, BlogAdmin)
+admin.site.register(BlogComment, BlogCommentAdmin)
