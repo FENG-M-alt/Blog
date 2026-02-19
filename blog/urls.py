@@ -8,4 +8,6 @@ urlpatterns = [
     path('blog/pub',views.pub_blog, name='pub_blog'),
     path('blog/comment/pub', views.pub_comment, name='pub_comment'),
     path('search', views.search, name="search"),
+    path('upload/image/', views.upload_image, name='upload_image'),
+    path('upload/video/', views.upload_video, name='upload_video'),
 ]

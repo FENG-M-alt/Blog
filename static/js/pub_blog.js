@@ -1,8 +1,32 @@
 window.onload = function (){   //在网页加载完之后再去执行这个js文件
+    
+    function getCsrfTokenFromDOM() {
+        const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        return csrfInput ? csrfInput.value : '';
+    }
+
     const { createEditor, createToolbar } = window.wangEditor
 
     const editorConfig = {
-        placeholder: 'Type here...',
+        placeholder: '请输入...',
+        MENU_CONF: {
+            uploadImage: {
+                server: '/upload/image/',
+                fieldName: "file",
+                withCredentials: true,
+                headers: {
+                    'X-CSRFToken': getCsrfTokenFromDOM()
+                },
+            },
+            uploadVideo:{
+                server: "/upload/video/",
+                fieldName: "file",
+                maxFileSize: 100 * 1024 * 1024,
+                headers: {
+                    'X-CSRFToken': getCsrfTokenFromDOM()
+                },
+            },
+        },
         onChange(editor) {
             const html = editor.getHtml()
             console.log('editor content', html)

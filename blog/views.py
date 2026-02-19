@@ -7,6 +7,9 @@ from django.views.decorators.http import require_http_methods, require_POST, req
 from .models import BlogCategory, Blog, BlogComment
 from .forms import PubBlogForm
 from django.db.models import Q
+import os
+from datetime import datetime
+from django.conf import settings
 # Create your views here.
 
 def index(request):
@@ -52,3 +55,51 @@ def search(request):
     q = request.GET.get('q')
     blogs = Blog.objects.filter(Q(title__icontains=q)|Q(content__icontains=q)).all()
     return render(request, 'index.html', context={'blogs':blogs})
+
+
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        file = request.FILES['file']
+        
+        folder = 'uploads'
+        save_dir = os.path.join(settings.MEDIA_ROOT, folder)
+        os.makedirs(save_dir, exist_ok=True)
+
+        filename = datetime.now().strftime('%Y%m%d%H%M%S%f') + os.path.splitext(file.name)[-1]
+        file_path = os.path.join(save_dir, filename)
+
+        with open(file_path, 'wb+') as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+
+        url = request.build_absolute_uri(f'/media/{folder}/{filename}')
+        return JsonResponse({
+            'errno': 0,
+            'data': { 'url': url }
+        })
+
+    return JsonResponse({'errno': 1})
+
+
+def upload_video(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        file = request.FILES['file']
+        
+        folder = 'uploads'
+        save_dir = os.path.join(settings.MEDIA_ROOT, folder)
+        os.makedirs(save_dir, exist_ok=True)
+
+        filename = datetime.now().strftime('%Y%m%d%H%M%S%f') + os.path.splitext(file.name)[-1]
+        file_path = os.path.join(save_dir, filename)
+
+        with open(file_path, 'wb+') as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+
+        url = request.build_absolute_uri(f'/media/{folder}/{filename}')
+        return JsonResponse({
+            'errno': 0,
+            'data': { 'url': url }
+        })
+
+    return JsonResponse({'errno': 1})
