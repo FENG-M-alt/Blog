@@ -5,4 +5,7 @@
 - 后端技术：Django5
 - 数据库：MySQL
 # 使用说明
-- 
+- 配置my_database.cnf
+  * ```database```：你项目对应的数据库名称
+  * ```user```：数据库的使用用户名
+  * ```password```：数据库的密码
